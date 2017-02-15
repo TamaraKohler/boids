@@ -5,11 +5,11 @@ import numpy as np
 
 import random
 
-x_position_limits = [-450,50.0]
-y_position_limits = [300.0,600.0]
+lower_position_limits = np.array([-450,300.0])
+upper_position_limits = np.array([50.0,600.0])
 
-x_velocity_limits = [0,10.0]
-y_velocity_limits = [-20.0,20.0]
+lower_velocity_limits = np.array([0,-20.0])
+upper_velocity_limits = np.array([10.0,20.0])
 
 x_axes_limits = [-500,1500]
 y_axes_limits = [-500,1500]
@@ -23,37 +23,42 @@ alert_distance = 100
 formation_flying_distance = 10000
 formation_flying_strength = 0.125
 
-boids_x=[random.uniform(x_position_limits[0],x_position_limits[1]) for x in range(boid_count)] 
-boids_y=[random.uniform(y_position_limits[0],y_position_limits[1]) for x in range(boid_count)] 
-boid_x_velocities=[random.uniform(x_velocity_limits[0],x_velocity_limits[1]) for x in range(boid_count)] 
-boid_y_velocities=[random.uniform(y_velocity_limits[0],y_velocity_limits[1]) for x in range(boid_count)] 
-boids=(boids_x,boids_y,boid_x_velocities,boid_y_velocities)
+def new_flock(count, lower_limits, upper_limits):
+    width=upper_limits-lower_limits
+    return (lower_limits[:,np.newaxis] + 
+         np.random.rand(2, count)*width[:,np.newaxis])
+
+boids_positions = new_flock(boid_count,lower_position_limits,upper_position_limits)
+boids_velocities = new_flock(boid_count,lower_velocity_limits,upper_velocity_limits)
+
+
+boids=(boids_positions,boids_velocities)
 
 def update_boids(boids): 
-    xs,ys,xvs,yvs=boids
+    positions,velocities=boids
     # Fly towards the middle 
     for i in range(boid_count):
         for j in range(boid_count): 
-            xvs[i]=xvs[i]+(xs[j]-xs[i])*move_to_middle_strength/len(xs)
+            velocities[0,i]=velocities[0,i]+(positions[0,j]-positions[0,i])*move_to_middle_strength/len(positions[0,:])
     for i in range(boid_count):
         for j in range(boid_count): 
-            yvs[i]=yvs[i]+(ys[j]-ys[i])*move_to_middle_strength/len(xs)
+            velocities[1,i]=velocities[1,i]+(positions[1,j]-positions[1,i])*move_to_middle_strength/len(positions[0,:])
     # Fly away from nearby boids
     for i in range(boid_count):
         for j in range(boid_count):
-            if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < alert_distance: 
-                xvs[i]=xvs[i]+(xs[i]-xs[j]) 
-                yvs[i]=yvs[i]+(ys[i]-ys[j])
+            if (positions[0,j]-positions[0,i])**2 + (positions[1,j]-positions[1,i])**2 < alert_distance: 
+                velocities[0,i]=velocities[0,i]+(positions[0,i]-positions[0,j]) 
+                velocities[1,i]=velocities[1,i]+(positions[1,i]-positions[1,j])
     # Try to match speed with nearby boids
     for i in range(boid_count):
         for j in range(boid_count):
-            if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < formation_flying_distance: 
-                xvs[i]=xvs[i]+(xvs[j]-xvs[i])*formation_flying_strength/len(xs) 
-                yvs[i]=yvs[i]+(yvs[j]-yvs[i])*formation_flying_strength/len(xs)
+            if (positions[0,j]-positions[0,i])**2 + (positions[1,j]-positions[1,i])**2 < formation_flying_distance: 
+                velocities[0,i]=velocities[0,i]+(velocities[0,j]-velocities[0,i])*formation_flying_strength/len(positions[0,:]) 
+                velocities[1,i]=velocities[1,i]+(velocities[1,j]-velocities[1,i])*formation_flying_strength/len(positions[0,:]) 
     # Move according to velocities
     for i in range(boid_count): 
-        xs[i]=xs[i]+xvs[i] 
-        ys[i]=ys[i]+yvs[i]
+        positions[0,i]=positions[0,i]+velocities[0,i] 
+        positions[1,i]=positions[1,i]+velocities[1,i]
 
 figure=plt.figure()
 axes=plt.axes(xlim=(x_axes_limits[0],x_axes_limits[1]), ylim=(y_axes_limits[0],y_axes_limits[1]))
