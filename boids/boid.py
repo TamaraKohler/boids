@@ -4,41 +4,57 @@ from matplotlib import animation
 import numpy as np
 
 import random
-# Deliberately terrible code for teaching purposes
-boids_x=[random.uniform(-450,50.0) for x in range(50)] 
-boids_y=[random.uniform(300.0,600.0) for x in range(50)] 
-boid_x_velocities=[random.uniform(0,10.0) for x in range(50)] 
-boid_y_velocities=[random.uniform(-20.0,20.0) for x in range(50)] 
+
+x_position_limits = [-450,50.0]
+y_position_limits = [300.0,600.0]
+
+x_velocity_limits = [0,10.0]
+y_velocity_limits = [-20.0,20.0]
+
+x_axes_limits = [-500,1500]
+y_axes_limits = [-500,1500]
+
+simulation_steps = 50
+
+move_to_middle_strength = 0.01
+alert_distance = 100
+formation_flying_distance = 10000
+formation_flying_strength = 0.125
+
+boids_x=[random.uniform(x_position_limits[0],x_position_limits[1]) for x in range(simulation_steps)] 
+boids_y=[random.uniform(y_position_limits[0],y_position_limits[1]) for x in range(simulation_steps)] 
+boid_x_velocities=[random.uniform(x_velocity_limits[0],x_velocity_limits[1]) for x in range(simulation_steps)] 
+boid_y_velocities=[random.uniform(y_velocity_limits[0],y_velocity_limits[1]) for x in range(simulation_steps)] 
 boids=(boids_x,boids_y,boid_x_velocities,boid_y_velocities)
 
 def update_boids(boids): 
     xs,ys,xvs,yvs=boids
     # Fly towards the middle 
-    for i in range(50):
-        for j in range(50): 
-            xvs[i]=xvs[i]+(xs[j]-xs[i])*0.01/len(xs)
-    for i in range(50):
-        for j in range(50): 
-            yvs[i]=yvs[i]+(ys[j]-ys[i])*0.01/len(xs)
+    for i in range(simulation_steps):
+        for j in range(simulation_steps): 
+            xvs[i]=xvs[i]+(xs[j]-xs[i])*move_to_middle_strength/len(xs)
+    for i in range(simulation_steps):
+        for j in range(simulation_steps): 
+            yvs[i]=yvs[i]+(ys[j]-ys[i])*move_to_middle_strength/len(xs)
     # Fly away from nearby boids
-    for i in range(50):
-        for j in range(50):
-            if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < 100: 
+    for i in range(simulation_steps):
+        for j in range(simulation_steps):
+            if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < alert_distance: 
                 xvs[i]=xvs[i]+(xs[i]-xs[j]) 
                 yvs[i]=yvs[i]+(ys[i]-ys[j])
     # Try to match speed with nearby boids
-    for i in range(50):
-        for j in range(50):
-            if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < 10000: 
-                xvs[i]=xvs[i]+(xvs[j]-xvs[i])*0.125/len(xs) 
-                yvs[i]=yvs[i]+(yvs[j]-yvs[i])*0.125/len(xs)
+    for i in range(simulation_steps):
+        for j in range(simulation_steps):
+            if (xs[j]-xs[i])**2 + (ys[j]-ys[i])**2 < formation_flying_distance: 
+                xvs[i]=xvs[i]+(xvs[j]-xvs[i])*formation_flying_strength/len(xs) 
+                yvs[i]=yvs[i]+(yvs[j]-yvs[i])*formation_flying_strength/len(xs)
     # Move according to velocities
-    for i in range(50): 
+    for i in range(simulation_steps): 
         xs[i]=xs[i]+xvs[i] 
         ys[i]=ys[i]+yvs[i]
 
 figure=plt.figure()
-axes=plt.axes(xlim=(-500,1500), ylim=(-500,1500))
+axes=plt.axes(xlim=(x_axes_limits[0],x_axes_limits[1]), ylim=(y_axes_limits[0],y_axes_limits[1]))
 scatter=axes.scatter(boids[0],boids[1])
 
 def animate(frame):
@@ -48,7 +64,7 @@ def animate(frame):
     data = np.hstack((x_pos[:,np.newaxis],y_pos[:,np.newaxis]))
     scatter.set_offsets(data)
 
-anim = animation.FuncAnimation(figure, animate, frames=50, interval=50)
+anim = animation.FuncAnimation(figure, animate, frames=simulation_steps, interval=simulation_steps)
 
 if __name__ == "__main__": 
     plt.show()
