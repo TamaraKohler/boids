@@ -35,7 +35,7 @@ boids_velocities = new_flock(boid_count,lower_velocity_limits,upper_velocity_lim
 boids=(boids_positions,boids_velocities)
 
 
-def fly_towards_middle(boids):
+def fly_towards_middle(boids, move_to_middle_strength):
     positions, velocities = boids 
     middle_of_boids = np.mean(positions,1)
     direction_to_middle = positions - middle_of_boids[:,np.newaxis]
@@ -49,7 +49,7 @@ def square_distance(boids):
     return square_distance
 
 
-def avoid_collisions(boids):
+def avoid_collisions(boids, alert_distance):
     positions, velocities = boids
     square_distances = square_distance(boids)
     close_birds = square_distances < alert_distance
@@ -60,7 +60,7 @@ def avoid_collisions(boids):
     velocities += np.sum(separations_if_close,1)
 
 
-def match_speed_boids(boids):
+def match_speed_boids(boids,formation_flying_distance,formation_flying_strength):
     positions, velocities = boids
     square_distances = square_distance(boids)
     velocity_differences = velocities[:,np.newaxis,:] - velocities[:,:,np.newaxis]
@@ -71,11 +71,11 @@ def match_speed_boids(boids):
     velocities -= np.mean(velocity_differences_if_close, 1) * formation_flying_strength
 
 
-def update_boids(boids): 
+def update_boids(boids, move_to_middle_strength,alert_distance,formation_flying_distance,formation_flying_strength): 
     positions,velocities=boids
-    fly_towards_middle(boids)	
-    avoid_collisions(boids)
-    match_speed_boids(boids)
+    fly_towards_middle(boids, move_to_middle_strength)	
+    avoid_collisions(boids, alert_distance)
+    match_speed_boids(boids,formation_flying_distance,formation_flying_strength)
     positions += velocities
 
 figure=plt.figure()
@@ -83,7 +83,7 @@ axes=plt.axes(xlim=(x_axes_limits[0],x_axes_limits[1]), ylim=(y_axes_limits[0],y
 scatter=axes.scatter(boids[0],boids[1])
 
 def animate(frame):
-    update_boids(boids) 
+    update_boids(boids, move_to_middle_strength,alert_distance,formation_flying_distance,formation_flying_strength) 
     x_pos = np.array(boids[0])
     y_pos = np.array(boids[1])
     data = np.hstack((x_pos[:,np.newaxis],y_pos[:,np.newaxis]))
