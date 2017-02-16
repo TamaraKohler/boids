@@ -34,14 +34,16 @@ boids_velocities = new_flock(boid_count,lower_velocity_limits,upper_velocity_lim
 
 boids=(boids_positions,boids_velocities)
 
-def update_boids(boids): 
-    positions,velocities=boids
-    # Fly towards the middle 
+
+def fly_towards_middle(boids):
+    positions, velocities = boids 
     middle_of_boids = np.mean(positions,1)
     direction_to_middle = positions - middle_of_boids[:,np.newaxis]
     velocities -= direction_to_middle * move_to_middle_strength	
 
-    # Fly away from nearby boids
+
+def avoid_collisions(boids):
+    positions, velocities = boids
     boid_separations = positions[:,np.newaxis,:] - positions[:,:,np.newaxis]
     squared_displacements = boid_separations * boid_separations
     square_distance = np.sum(squared_displacements,0)
@@ -52,7 +54,12 @@ def update_boids(boids):
     separations_if_close[1,:,:][far_away] = 0
     velocities += np.sum(separations_if_close,1)
 
-    # Try to match speed with nearby boids
+
+def match_speed_boids(boids):
+    positions, velocities = boids
+    boid_separations = positions[:,np.newaxis,:] - positions[:,:,np.newaxis]
+    squared_displacements = boid_separations * boid_separations
+    square_distance = np.sum(squared_displacements,0)
     velocity_differences = velocities[:,np.newaxis,:] - velocities[:,:,np.newaxis]
     very_far=square_distance > formation_flying_distance
     velocity_differences_if_close = np.copy(velocity_differences)
@@ -60,7 +67,12 @@ def update_boids(boids):
     velocity_differences_if_close[1,:,:][very_far] =0
     velocities -= np.mean(velocity_differences_if_close, 1) * formation_flying_strength
 
-    # Move according to velocities
+
+def update_boids(boids): 
+    positions,velocities=boids
+    fly_towards_middle(boids)	
+    avoid_collisions(boids)
+    match_speed_boids(boids)
     positions += velocities
 
 figure=plt.figure()
