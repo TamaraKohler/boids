@@ -3,20 +3,15 @@ from matplotlib import pyplot as plt
 from matplotlib import animation
 import numpy as np
 import random
+import yaml
 
 
-input_position_limits = np.array([[-450,300.0],[50.0,600.0]])
+config=yaml.load(open("config.yaml"))
+globals().update(config)
 
-input_velocity_limits = np.array([[0,-20.0],[10.0,20.0]])
+input_position_limits = np.array([minimum_position,maximum_position])
 
-
-input_boid_count = 50
-
-input_move_to_middle_strength = 0.01
-input_alert_distance = 100
-input_formation_flying_distance = 10000
-input_formation_flying_strength = 0.125
-
+input_velocity_limits = np.array([minimum_velocity,maximum_velocity])
 
 x_axes_limits = [-500,1500]
 y_axes_limits = [-500,1500]
