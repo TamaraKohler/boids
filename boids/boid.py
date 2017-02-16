@@ -37,28 +37,31 @@ boids=(boids_positions,boids_velocities)
 def update_boids(boids): 
     positions,velocities=boids
     # Fly towards the middle 
-    for i in range(boid_count):
-        for j in range(boid_count): 
-            velocities[0,i]=velocities[0,i]+(positions[0,j]-positions[0,i])*move_to_middle_strength/len(positions[0,:])
-    for i in range(boid_count):
-        for j in range(boid_count): 
-            velocities[1,i]=velocities[1,i]+(positions[1,j]-positions[1,i])*move_to_middle_strength/len(positions[0,:])
+    middle_of_boids = np.mean(positions,1)
+    direction_to_middle = positions - middle_of_boids[:,np.newaxis]
+    velocities -= direction_to_middle * move_to_middle_strength	
+
     # Fly away from nearby boids
-    for i in range(boid_count):
-        for j in range(boid_count):
-            if (positions[0,j]-positions[0,i])**2 + (positions[1,j]-positions[1,i])**2 < alert_distance: 
-                velocities[0,i]=velocities[0,i]+(positions[0,i]-positions[0,j]) 
-                velocities[1,i]=velocities[1,i]+(positions[1,i]-positions[1,j])
+    boid_separations = positions[:,np.newaxis,:] - positions[:,:,np.newaxis]
+    squared_displacements = boid_separations * boid_separations
+    square_distance = np.sum(squared_displacements,0)
+    close_birds = square_distance < alert_distance
+    separations_if_close = np.copy(boid_separations)
+    far_away  = np.logical_not(close_birds)
+    separations_if_close[0,:,:][far_away] = 0
+    separations_if_close[1,:,:][far_away] = 0
+    velocities += np.sum(separations_if_close,1)
+
     # Try to match speed with nearby boids
-    for i in range(boid_count):
-        for j in range(boid_count):
-            if (positions[0,j]-positions[0,i])**2 + (positions[1,j]-positions[1,i])**2 < formation_flying_distance: 
-                velocities[0,i]=velocities[0,i]+(velocities[0,j]-velocities[0,i])*formation_flying_strength/len(positions[0,:]) 
-                velocities[1,i]=velocities[1,i]+(velocities[1,j]-velocities[1,i])*formation_flying_strength/len(positions[0,:]) 
+    velocity_differences = velocities[:,np.newaxis,:] - velocities[:,:,np.newaxis]
+    very_far=square_distance > formation_flying_distance
+    velocity_differences_if_close = np.copy(velocity_differences)
+    velocity_differences_if_close[0,:,:][very_far] =0
+    velocity_differences_if_close[1,:,:][very_far] =0
+    velocities -= np.mean(velocity_differences_if_close, 1) * formation_flying_strength
+
     # Move according to velocities
-    for i in range(boid_count): 
-        positions[0,i]=positions[0,i]+velocities[0,i] 
-        positions[1,i]=positions[1,i]+velocities[1,i]
+    positions += velocities
 
 figure=plt.figure()
 axes=plt.axes(xlim=(x_axes_limits[0],x_axes_limits[1]), ylim=(y_axes_limits[0],y_axes_limits[1]))
