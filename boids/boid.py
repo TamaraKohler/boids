@@ -41,14 +41,19 @@ def fly_towards_middle(boids):
     direction_to_middle = positions - middle_of_boids[:,np.newaxis]
     velocities -= direction_to_middle * move_to_middle_strength	
 
-
-def avoid_collisions(boids):
+def square_distance(boids):
     positions, velocities = boids
     boid_separations = positions[:,np.newaxis,:] - positions[:,:,np.newaxis]
     squared_displacements = boid_separations * boid_separations
     square_distance = np.sum(squared_displacements,0)
-    close_birds = square_distance < alert_distance
-    separations_if_close = np.copy(boid_separations)
+    return square_distance
+
+
+def avoid_collisions(boids):
+    positions, velocities = boids
+    square_distances = square_distance(boids)
+    close_birds = square_distances < alert_distance
+    separations_if_close = positions[:,np.newaxis,:] - positions[:,:,np.newaxis]
     far_away  = np.logical_not(close_birds)
     separations_if_close[0,:,:][far_away] = 0
     separations_if_close[1,:,:][far_away] = 0
@@ -57,11 +62,9 @@ def avoid_collisions(boids):
 
 def match_speed_boids(boids):
     positions, velocities = boids
-    boid_separations = positions[:,np.newaxis,:] - positions[:,:,np.newaxis]
-    squared_displacements = boid_separations * boid_separations
-    square_distance = np.sum(squared_displacements,0)
+    square_distances = square_distance(boids)
     velocity_differences = velocities[:,np.newaxis,:] - velocities[:,:,np.newaxis]
-    very_far=square_distance > formation_flying_distance
+    very_far=square_distances > formation_flying_distance
     velocity_differences_if_close = np.copy(velocity_differences)
     velocity_differences_if_close[0,:,:][very_far] =0
     velocity_differences_if_close[1,:,:][very_far] =0
