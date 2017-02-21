@@ -1,0 +1,1 @@
+The 'boids' package is a simple package that allows one to model the aggregate motion of a simulated flock of 'boids' (or birds) using a behavioural model. 
