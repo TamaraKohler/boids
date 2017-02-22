@@ -60,3 +60,15 @@ def test_match_speed_boids():
     final_velocities = boids.velocities
     npt.assert_array_equal(final_positions, expected_final_positions)
     npt.assert_array_equal(final_velocities,expected_final_velocities)
+    
+def test_update_boids():
+    boids = Boids(input_position_limits, input_velocity_limits, input_boid_count, input_move_to_middle_strength, input_alert_distance, input_formation_flying_distance, input_formation_flying_strength)
+    boids.positions = np.load(initial_positions_file)
+    boids.velocities = np.load(initial_velocities_file)
+    expected_final_positions = np.load(os.path.join(os.path.dirname(__file__),'fixtures/update_boids_positions.npy'))
+    expected_final_velocities = np.load(os.path.join(os.path.dirname(__file__),'fixtures/update_boids_velocities.npy'))
+    boids.update_boids()
+    final_positions = boids.positions
+    final_velocities = boids.velocities
+    npt.assert_array_equal(final_positions, expected_final_positions)
+    npt.assert_array_equal(final_velocities, expected_final_velocities)
