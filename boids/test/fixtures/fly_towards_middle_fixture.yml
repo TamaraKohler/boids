@@ -1,0 +1,122 @@
+after: !!python/object:boids.Boids.Boids
+  alert_distance: 100
+  boid_count: 50
+  formation_flying_distance: 1000
+  formation_flying_strength: 0.125
+  move_to_middle_strength: 0.01
+  positions: !!python/object/apply:numpy.core.multiarray._reconstruct
+    args:
+    - &id001 !!python/name:numpy.ndarray ''
+    - !!python/tuple [0]
+    - !!binary |
+      Yg==
+    state: !!python/tuple
+    - 1
+    - !!python/tuple [2, 50]
+    - &id002 !!python/object/apply:numpy.dtype
+      args: [f8, 0, 1]
+      state: !!python/tuple [3, <, null, null, null, -1, -1, 0]
+    - false
+    - !!binary |
+      5Ga5oW3JZcC+zgMfgfR1wNycxiheXXfAQBcbywioOcB3g0k/qTR6wMX8rgRRe3XAAMKeNHqiGsAa
+      XnN6G7d0wHDP3x6CaXPA4ARZVGlLNkCOk+KTMqNhwGxEnmqobmfAejZ5NnQFY8C858iAZlt0wOt+
+      455SJXnA/FZgIBrdYsDgcV94Pbx3wKT6HVXSAnLAiqqvDq7Vd8COKETa5UJrwHDmymVD003ATKbr
+      rUF+csByHPHEQGhlwMAykilcxCxAFBb0BfS5XMCmqmK6Bkd6wOC76rQskXXAjOvPDDS5UMCuUf1z
+      +NJvwMAEgFGyPkvAr5AiKlByacDwwigWpcVawGz46MgxsGjA3z9oCgN8dcA2Zouw9Qx1wKAccJO7
+      ikbAoLcq0Z3PYMD4HaIUPLRHQO5xuu43oWXAbpSsfq7WdMAU3R2S+mtzwEgJICgAQ0XAEjOgIKfe
+      cMCwYFNy9yxIQP8/39Wg73TAIE0V69k5V8DyxZj5/FJ5wPjsBcyasmLARw1mgprFdMDAiyUdWotN
+      wFomOEaqjXRA/MJH5ravc0D1TuGKTw11QEY4AYVZJIFA6kT/PEqDfEBzCVVW2RF5QLjllfwEIXdA
+      nDMthRyMeEAGZWRHlTWBQK8EnshH6HpAc+HJgysceUB0XlvKJ1h4QKNoNttp9nRAtrSlr9q6gUDh
+      HvvhH9d4QP/LmxywD39AonVZ6329e0A2R5nx9NN3QMQwFDwyxX5AizqMO/JreUAnBoaHoid1QAR0
+      TRGVDXRAnNQwOrfPfEArFSOGtpOCQGjLqBsQQ4JAjhXcElbcgEDotUveZgaBQDrqGLC4mHpAiGd6
+      uYxbekAck9YvlzJzQJ70ybLxv3tAA1PCz6t5dECDSXUQhPt0QD2cE5c9f3tAP6aHXFN+gUAqKV7v
+      ael7QKmj9QgCqnZAmto5I3XweEDuYUnfUid4QMDR1gvy0npAMOK8b8VieEBWQsTRL1N4QEJ/V6b4
+      33NAn4RemRyddEATU38sGgt9QGBNcdIEonxAxISbGeb/fEDx302ZOzp+QBJO3BKL8HZAPANRB1NL
+      gEA=
+  velocities: !!python/object/apply:numpy.core.multiarray._reconstruct
+    args:
+    - *id001
+    - !!python/tuple [0]
+    - !!binary |
+      Yg==
+    state: !!python/tuple
+    - 1
+    - !!python/tuple [2, 50]
+    - *id002
+    - false
+    - !!binary |
+      1mQo7INzD0ByxEhR1X4cQCTgAvFrsQVATr9eolhwHECEME1MksMmQIjEtlTXdxRA6jWHpejKGUAR
+      txGpc98ZQCYvb70LxxVAFsq0DF8B7b9ov2BVi0kTQG0CR4RAiRtAinY558fXF0Advj5Yzk4SQM9N
+      DmH0fCRAsr4bWyIgDkAttlVZfEIiQKLjg+g56xJAvO+RkXDpG0DF7m45+N/mP5DEUgZedx1A/Iw6
+      QwuxAUDWE3LOe/cdQDkLbVtzUgpAfRU9usNRCUAGcLl9bxUOQL20gxN3bCBAEgx0beY4IEAsB0OR
+      lu8AQMw2C04sFtk/dxzlBN/JIkBMKDxJT6UcQOgVR6+iEwlAUEaSXg6yIkBR/ZOTMfcHQEzN/ld0
+      BNi/vn41isMlEUBqBfc1LsX3P8plDrok/BdAXgO2pNN2G0AOKZ4MS1wcQNBIdyVmLBtA9yxxEFHj
+      EEDKMmcvJ3kUQEq5ig+2rxVASoQ+w7m6BkAwX6Vw2dQeQPjsIq8mV9+/tDPWTOqwJUCbMRJlI6kR
+      QIK7b1opaPU/V91c6zB+IcCxnAXjU/wuwEjakc+CaCFA1CebePPoFkDvK1LKpKYmwLB+1RRYti7A
+      OZ52iOw+8D9RSN+pYqIpwFSG4xnwShFAGrL75e9pLECAHchu2a4gwDaPt9ToIQRAVPZJgKDyLkAQ
+      I4/Q/X/jv2B355mnUAjA4EsjKcttH8DGSE9TTzIfwB6xwg5SWiFAZ8pE6lU6BMBWtsyHV88xwDIp
+      uK2V0yZAgUgUrcmIEsA11rtCFR4vwJUiDF2P7CFArPVKBiIEMsA2Wjjt4xEiQBzLh1401Q7A6Kmh
+      cYDULMA8lj7+XYoQwNlVa82tfydAEbN9KMBhMEACJhg/z/QoQEDyMMP0RyFANio7BGJ3MsCx8j7C
+      X88fQJ+xGXEd8S1A7Fv6Ioa9879C//+c1eAzQI4YGw1wwyHAJWdIG334K8BK+bKssc4xQMiQaWnT
+      6CtA0it8abCJLcDsh34dtIQpQCKLqUfrrTDAYQb7dNj8LMBzLofCDyElQPHYdHhFZw1AgnkzyZUT
+      NMA=
+before: !!python/object:boids.Boids.Boids
+  alert_distance: 100
+  boid_count: 50
+  formation_flying_distance: 1000
+  formation_flying_strength: 0.125
+  move_to_middle_strength: 0.01
+  positions: !!python/object/apply:numpy.core.multiarray._reconstruct
+    args:
+    - *id001
+    - !!python/tuple [0]
+    - !!binary |
+      Yg==
+    state: !!python/tuple
+    - 1
+    - !!python/tuple [2, 50]
+    - *id002
+    - false
+    - !!binary |
+      5Ga5oW3JZcC+zgMfgfR1wNycxiheXXfAQBcbywioOcB3g0k/qTR6wMX8rgRRe3XAAMKeNHqiGsAa
+      XnN6G7d0wHDP3x6CaXPA4ARZVGlLNkCOk+KTMqNhwGxEnmqobmfAejZ5NnQFY8C858iAZlt0wOt+
+      455SJXnA/FZgIBrdYsDgcV94Pbx3wKT6HVXSAnLAiqqvDq7Vd8COKETa5UJrwHDmymVD003ATKbr
+      rUF+csByHPHEQGhlwMAykilcxCxAFBb0BfS5XMCmqmK6Bkd6wOC76rQskXXAjOvPDDS5UMCuUf1z
+      +NJvwMAEgFGyPkvAr5AiKlByacDwwigWpcVawGz46MgxsGjA3z9oCgN8dcA2Zouw9Qx1wKAccJO7
+      ikbAoLcq0Z3PYMD4HaIUPLRHQO5xuu43oWXAbpSsfq7WdMAU3R2S+mtzwEgJICgAQ0XAEjOgIKfe
+      cMCwYFNy9yxIQP8/39Wg73TAIE0V69k5V8DyxZj5/FJ5wPjsBcyasmLARw1mgprFdMDAiyUdWotN
+      wFomOEaqjXRA/MJH5ravc0D1TuGKTw11QEY4AYVZJIFA6kT/PEqDfEBzCVVW2RF5QLjllfwEIXdA
+      nDMthRyMeEAGZWRHlTWBQK8EnshH6HpAc+HJgysceUB0XlvKJ1h4QKNoNttp9nRAtrSlr9q6gUDh
+      HvvhH9d4QP/LmxywD39AonVZ6329e0A2R5nx9NN3QMQwFDwyxX5AizqMO/JreUAnBoaHoid1QAR0
+      TRGVDXRAnNQwOrfPfEArFSOGtpOCQGjLqBsQQ4JAjhXcElbcgEDotUveZgaBQDrqGLC4mHpAiGd6
+      uYxbekAck9YvlzJzQJ70ybLxv3tAA1PCz6t5dECDSXUQhPt0QD2cE5c9f3tAP6aHXFN+gUAqKV7v
+      ael7QKmj9QgCqnZAmto5I3XweEDuYUnfUid4QMDR1gvy0npAMOK8b8VieEBWQsTRL1N4QEJ/V6b4
+      33NAn4RemRyddEATU38sGgt9QGBNcdIEonxAxISbGeb/fEDx302ZOzp+QBJO3BKL8HZAPANRB1NL
+      gEA=
+  velocities: !!python/object/apply:numpy.core.multiarray._reconstruct
+    args:
+    - *id001
+    - !!python/tuple [0]
+    - !!binary |
+      Yg==
+    state: !!python/tuple
+    - 1
+    - !!python/tuple [2, 50]
+    - *id002
+    - false
+    - !!binary |
+      6A7u+qMkEUB2jzLSXtUWQKcFh3AuIfE/GBGqc6TmIUDq+t4/oZIiQJRKR4XgNw5AavePJDH1IEBq
+      1NJ+HwEVQCk3o3E4vhFAvyD0zyOf9j/ibi1KVwgWQC/0j2dXbRxA9Z8dLTclGkBuTkDjVlYLQCQu
+      /l7XoiBAaNUdFGpqEUCkFkZ11rcdQAd3U6zrjw9ArsfkRQYMFUBKSSJARTPkP0pDEmMavCFAJHAS
+      6QeZ9T+q891rdoEfQNdQliQsIBZATsyR4ehzEEBHXoPNUnT6P4dpXdcJbxtAGFSm2jsUI0Bxm22Z
+      sbH6PxLM4bJHHP8/V7wsOWnpIkAuVXd3MWAgQC6vlOcHDgpAD0Xx3eEDIEAa/5xFSpn7P5t2EkHk
+      VvQ/hMYyOEQoFEABZbTwaToQQBD3vrrkcxlA/NQKWUqEFkD6mC/84lEYQBBbqzdP7iBA6P732BP2
+      DECK0Xgp7sseQPyX04E1rRBALVxpwa8JEEAo6N2YZQMXQHCIhJL3n7w/uPAMsBw9I0D1qAXjuq8X
+      QIBbP8dPetc/Mg6fy2m2I8AZ7yTrVmIwwHL1Tb0f3CNArH9tk6IeGEDNCOLi3CUnwIwpE3OM1C/A
+      oHkjB5vd5T/0TX01viMnwKB3G2WTeRFAhHabTAXuK0Dj/SyLfWkhwADPoSRkxvk/xGNWDEjjMECA
+      ZAejKqDsv6C+MqI3ogLALI3PTLO2HsANMA18GX4gwKyEW7AXriJAmMGZO+PDBcCKr4dETq8ywIzz
+      03RmuSRADiR0+jAiEcAca3mHW78rwLZohWOrFyVAuN4m517hMMBsNtIyVnIkQOj1CarD3Q7Ayu20
+      dDfqLMA6h5AK5EoVwJhTPp8C3CdAxMlvu+fLLkBcfA2LwyYnQI53RBGVjyFAZiIJucggMcAwaQ3l
+      SVEgQCTdLabTrCxAwOOVS8IM+L++FDFps3szQF6MBinysiHATG8dkruvLMBmUZEalHAxQCycX7wL
+      wClAonBGtPF1L8B0Zi9oAUsqQC6Dr9mUWzDAOvnk8iA6LMDcBvWBXUgmQKB1NE9nsAhAx/fpCTof
+      M8A=
