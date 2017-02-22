@@ -29,6 +29,11 @@ def test_fly_towards_middle():
     npt.assert_array_equal(final_positions,expected_final_positions)
     npt.assert_array_equal(final_velocities,expected_final_velocities)
     
-
-    
+def test_square_distances():
+    boids = Boids(input_position_limits, input_velocity_limits, input_boid_count, input_move_to_middle_strength, input_alert_distance, input_formation_flying_distance, input_formation_flying_strength)
+    boids.positions = initial_positions
+    boids.velocities = initial_velocities
+    expected_answer = np.load(os.path.join(os.path.dirname(__file__),'fixtures/square_distances.npy'))
+    answer = boids.square_distances()
+    npt.assert_array_equal(expected_answer,answer)
     
