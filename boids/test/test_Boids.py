@@ -2,7 +2,7 @@ from boids import Boids
 import os
 import numpy.testing as npt
 import numpy as np
-from nose.tools import assert_equals
+from nose.tools import assert_equals, assert_true
 
 input_position_limits = np.array([[-450,300.0],[50.0,600.0]])
 input_velocity_limits = np.array([[0,-20.0],[10.0,20.0]])
@@ -15,7 +15,14 @@ input_formation_flying_strength = 0.125
 initial_positions_file = os.path.join(os.path.dirname(__file__),'fixtures/initial_positions.npy')
 initial_velocities_file = os.path.join(os.path.dirname(__file__),'fixtures/initial_velocities.npy')
 
-#def test_new_flock() how to test random output??
+def test_new_flock():
+    boids = Boids(input_position_limits, input_velocity_limits, input_boid_count, input_move_to_middle_strength, input_alert_distance, input_formation_flying_distance, input_formation_flying_strength)
+    array = boids.new_flock(np.array([0,50]),np.array([50,100]))
+    x_array = array[0,:]
+    y_array = array[1,:]
+    assert_equals(array.shape, (2,50))
+    assert_true((x_array > 0).all() and (x_array < 50).all())
+    assert_true((y_array >50).all() and (y_array < 100).all())
 
 def test_fly_towards_middle():
     boids = Boids(input_position_limits, input_velocity_limits, input_boid_count, input_move_to_middle_strength, input_alert_distance, input_formation_flying_distance, input_formation_flying_strength)
