@@ -12,15 +12,15 @@ input_alert_distance = 100
 input_formation_flying_distance = 1000
 input_formation_flying_strength = 0.125
 
-initial_positions = np.load(os.path.join(os.path.dirname(__file__),'fixtures/initial_positions.npy'))
-initial_velocities = np.load(os.path.join(os.path.dirname(__file__),'fixtures/initial_velocities.npy'))
+initial_positions_file = os.path.join(os.path.dirname(__file__),'fixtures/initial_positions.npy')
+initial_velocities_file = os.path.join(os.path.dirname(__file__),'fixtures/initial_velocities.npy')
 
 #def test_new_flock() how to test random output??
 
 def test_fly_towards_middle():
     boids = Boids(input_position_limits, input_velocity_limits, input_boid_count, input_move_to_middle_strength, input_alert_distance, input_formation_flying_distance, input_formation_flying_strength)
-    boids.positions = initial_positions
-    boids.velocities = initial_velocities
+    boids.positions = np.load(initial_positions_file)
+    boids.velocities = np.load(initial_velocities_file)
     expected_final_positions = np.load(os.path.join(os.path.dirname(__file__),'fixtures/fly_towards_middle_positions.npy'))
     expected_final_velocities = np.load(os.path.join(os.path.dirname(__file__),'fixtures/fly_towards_middle_velocities.npy'))
     boids.fly_towards_middle()
@@ -31,9 +31,21 @@ def test_fly_towards_middle():
     
 def test_square_distances():
     boids = Boids(input_position_limits, input_velocity_limits, input_boid_count, input_move_to_middle_strength, input_alert_distance, input_formation_flying_distance, input_formation_flying_strength)
-    boids.positions = initial_positions
-    boids.velocities = initial_velocities
+    boids.positions = np.load(initial_positions_file)
+    boids.velocities = np.load(initial_velocities_file)
     expected_answer = np.load(os.path.join(os.path.dirname(__file__),'fixtures/square_distances.npy'))
     answer = boids.square_distances()
     npt.assert_array_equal(expected_answer,answer)
+    
+def test_avoid_collisions():
+    boids = Boids(input_position_limits, input_velocity_limits, input_boid_count, input_move_to_middle_strength, input_alert_distance, input_formation_flying_distance, input_formation_flying_strength)
+    boids.positions = np.load(initial_positions_file)
+    boids.velocities = np.load(initial_velocities_file)
+    expected_final_positions = np.load(initial_positions_file)
+    expected_final_velocities = np.load(os.path.join(os.path.dirname(__file__),'fixtures/avoid_collisions_velocities.npy'))
+    boids.avoid_collisions()
+    final_positions = boids.positions
+    final_velocities = boids.velocities
+    npt.assert_array_equal(final_positions, expected_final_positions)
+    npt.assert_array_equal(final_velocities,expected_final_velocities)
     
