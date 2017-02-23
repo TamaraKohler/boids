@@ -8,9 +8,9 @@ from .Boids import Boids
 #from pkg_resources import resource_filename, resource_exists, Requirement
 
 # Extract information from the config file 
-# config_file = resource_filename(Requirement.parse("Boids"),"boids/config.yaml")
-# config=yaml.load(config_file)
-# globals().update(config)
+#with open(os.path.join(os.path.abspath(__file__),'config.yaml')) as config_file:
+ #   config=yaml.load(config_file)
+ #   globals().update(config)
 #input_position_limits = np.array([minimum_position,maximum_position])
 #input_velocity_limits = np.array([minimum_velocity,maximum_velocity])
 
@@ -24,7 +24,7 @@ number_of_intervals = 50
 # Create an instance of the boids’ class with information from configuration file
 #boids = Boids(input_position_limits, input_velocity_limits, input_boid_count, input_move_to_middle_strength, input_alert_distance, input_formation_flying_distance, input_formation_flying_strength)
 
-# Create an instance of the bonds’ class with default parameters
+# Create an instance of the boids’ class with default parameters
 boids = Boids()
 
 # Animate the boids
@@ -38,6 +38,7 @@ def animate(frame):
     y_pos = np.array(boids.positions[1])
     data = np.hstack((x_pos[:,np.newaxis],y_pos[:,np.newaxis]))
     scatter.set_offsets(data)
+
 anim = animation.FuncAnimation(figure, animate, frames=number_of_frames, interval=number_of_intervals)
 
 def process():

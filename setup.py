@@ -8,6 +8,6 @@ setup(
     author_email = 'tamara.kohler.16@ucl.ac.uk',
     license = 'MIT',
     packages = find_packages(exclude=['\test']),
+    include_package_data=True,
     scripts = ['scripts/animate_boids'],
-    #package_data = {'Boids': ['config.yaml']},
     install_requires = ['numpy', 'matplotlib'])

@@ -21,7 +21,6 @@ def test_fly_towards_middle():
     expected_outcome = fly_middle_data["after"]
     npt.assert_array_equal(expected_outcome.positions, boids.positions)
     npt.assert_array_equal(expected_outcome.velocities,boids.velocities)
-    #assert_equals(fly_middle_data["after"],boids)
     
 def test_square_distances():
     square_distances_data=yaml.load(open(os.path.join(os.path.dirname(__file__),'fixtures/square_distances_fixture.yml')))
@@ -37,7 +36,6 @@ def test_avoid_collisions():
     expected_outcome = avoid_collisions_data["after"]
     npt.assert_array_equal(expected_outcome.positions, boids.positions)
     npt.assert_array_equal(expected_outcome.velocities,boids.velocities)
-    #assert_equals(avoid_collisions_data["after"],boids)
     
 def test_match_speed_boids():
     match_speed_data=yaml.load(open(os.path.join(os.path.dirname(__file__),'fixtures/match_speed_fixture.yml')))
@@ -46,7 +44,6 @@ def test_match_speed_boids():
     expected_outcome = match_speed_data["after"]
     npt.assert_array_equal(expected_outcome.positions, boids.positions)
     npt.assert_array_equal(expected_outcome.velocities,boids.velocities)
-    #assert_equals(match_speed_data["after"],boids)
     
 def test_update_boids():
     update_data=yaml.load(open(os.path.join(os.path.dirname(__file__),'fixtures/update_boids_fixture.yml')))
@@ -55,4 +52,3 @@ def test_update_boids():
     expected_outcome = update_data["after"]
     npt.assert_array_equal(expected_outcome.positions,boids.positions)
     npt.assert_array_equal(expected_outcome.velocities,boids.velocities)
-    #assert_equals(update_data["after"],boids)
